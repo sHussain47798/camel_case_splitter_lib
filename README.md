@@ -46,3 +46,10 @@ Non-ASCII letters are treated as ordinary characters and do not create case
 boundaries.  `split("caféBar")` returns `['cafébar']`, not `['café', 'bar']`.
 This keeps the splitter deterministic and independent of locale; if you need
 Unicode case folding, pre-normalise your input.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
